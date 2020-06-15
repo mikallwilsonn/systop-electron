@@ -1,19 +1,25 @@
-const { app, BrowserWindow, Menu } = require('electron')
-const log = require('electron-log')
+// ----
+// Dependencies
+const { app, BrowserWindow, Menu } = require( 'electron' );
+const log = require( 'electron-log' );
 
-// Set env
-process.env.NODE_ENV = 'development'
+// ----
+// Set environment
+process.env.NODE_ENV = 'development';
 
-const isDev = process.env.NODE_ENV !== 'production' ? true : false
-const isMac = process.platform === 'darwin' ? true : false
+const isDev = process.env.NODE_ENV !== 'production' ? true : false;
+const isMac = process.platform === 'darwin' ? true : false;
 
-let mainWindow
+
+// ----
+// Window
+let mainWindow;
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
-    title: 'APP NAME',
-    width: isDev ? 800 : 500,
-    height: 600,
+    title: 'SysTop',
+    width: isDev ? 800 : 355,
+    height: 500,
     icon: './assets/icons/icon.png',
     resizable: isDev ? true : false,
     backgroundColor: 'white',
@@ -22,22 +28,24 @@ function createMainWindow() {
     },
   })
 
-  if (isDev) {
-    mainWindow.webContents.openDevTools()
+  if ( isDev ) {
+    mainWindow.webContents.openDevTools();
   }
 
-  mainWindow.loadFile('./app/index.html')
+  mainWindow.loadFile( './app/index.html' );
 }
 
-app.on('ready', () => {
+
+app.on( 'ready', () => {
   createMainWindow()
 
-  const mainMenu = Menu.buildFromTemplate(menu)
-  Menu.setApplicationMenu(mainMenu)
-})
+  const mainMenu = Menu.buildFromTemplate( menu );
+  Menu.setApplicationMenu( mainMenu );
+});
+
 
 const menu = [
-  ...(isMac ? [{ role: 'appMenu' }] : []),
+  ...( isMac ? [{ role: 'appMenu' }] : [] ),
   {
     role: 'fileMenu',
   },
@@ -54,18 +62,21 @@ const menu = [
         },
       ]
     : []),
-]
+];
 
-app.on('window-all-closed', () => {
-  if (!isMac) {
-    app.quit()
+
+app.on( 'window-all-closed', () => {
+  if ( !isMac ) {
+    app.quit();
   }
-})
+});
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createMainWindow()
+
+app.on( 'activate', () => {
+  if ( BrowserWindow.getAllWindows().length === 0 ) {
+    createMainWindow();
   }
-})
+});
 
-app.allowRendererProcessReuse = true
+
+app.allowRendererProcessReuse = true;
