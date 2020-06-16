@@ -39,7 +39,7 @@ ul {
 }
 
 .content li {
-	padding: 10px 0;
+	padding: 10px 10px;
 	border-bottom: 1px #555 solid;
 	background: var(--secondary-background-color);
 }
@@ -93,10 +93,12 @@ nav ul li p {
 .progress-bar {
 	background: var(--secondary-background-color);
 	border-radius: 13px;
-	height: 20px;
+	height: 15px;
 	width: 300px;
 	padding: 3px;
 }
+
+#cpu-progress { transition: 0.5s; }
 
 .progress {
 	content: '';

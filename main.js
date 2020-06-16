@@ -26,7 +26,7 @@ function createMainWindow() {
     webPreferences: {
       nodeIntegration: true,
     },
-  })
+  });
 
   if ( isDev ) {
     mainWindow.webContents.openDevTools();
