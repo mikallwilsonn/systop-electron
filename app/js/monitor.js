@@ -12,6 +12,14 @@ const os = osu.os;
 let cpuOverload = 80;
 
 
+
+notifyUser({
+    title: 'CPU Overload',
+    body: `CPU is over ${ cpuOverload }%`,
+    icon: path.join( __dirname, 'img', 'icon.png' )
+});
+
+
 // ----
 // Static Stats
 
@@ -69,4 +77,11 @@ function SecondsToDHMS( value ) {
     const seconds = Math.floor( value % 60 );
 
     return `${ day }d, ${ hour }h, ${ minutes }m, ${ seconds }s`;
+}
+
+
+// ----
+// Notification
+function notifyUser( options ) {
+    new Notification( options.title, options );
 }
