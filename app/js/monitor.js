@@ -7,6 +7,11 @@ const mem = osu.mem;
 const os = osu.os;
 
 
+// ---- 
+// CPU Overload
+let cpuOverload = 80;
+
+
 // ----
 // Static Stats
 
@@ -31,6 +36,15 @@ setInterval(() => {
     // CPU Usage
     cpu.usage().then(( info ) => {
         document.querySelector( '#cpu-usage' ).innerText = `${ info }%`;
+
+        document.querySelector( '#cpu-progress' ).style.width = `${ info }%`;
+
+        if ( info >= cpu.cpuOverload ) {
+            console.log( 'is overload' );
+            document.querySelector( '#cpu-progress' ).style.backgroundColor = 'red !important';
+        } else {
+            document.querySelector( '#cpu-progress' ).style.backgroundColor = '#30c88b';
+        }
     });
 
     // CPU Free
@@ -44,6 +58,7 @@ setInterval(() => {
 }, 2000 );
 
 
+// ----
 // Show, days, hours, mins, and sec for uptime
 function SecondsToDHMS( value ) {
     value = +value;
