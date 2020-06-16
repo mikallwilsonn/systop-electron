@@ -10,14 +10,10 @@ const os = osu.os;
 // ---- 
 // CPU Overload
 let cpuOverload = 80;
+let alertFrequency = 5;
 
 
 
-notifyUser({
-    title: 'CPU Overload',
-    body: `CPU is over ${ cpuOverload }%`,
-    icon: path.join( __dirname, 'img', 'icon.png' )
-});
 
 
 // ----
@@ -48,10 +44,20 @@ setInterval(() => {
         document.querySelector( '#cpu-progress' ).style.width = `${ info }%`;
 
         if ( info >= cpu.cpuOverload ) {
-            console.log( 'is overload' );
-            document.querySelector( '#cpu-progress' ).style.backgroundColor = 'red !important';
+            document.querySelector( '#cpu-progress' ).style.backgroundColor = 'red';
         } else {
             document.querySelector( '#cpu-progress' ).style.backgroundColor = '#30c88b';
+        }
+
+        // Check overload
+        if ( info >= cpuOverload && runNotify( alertFrequency ) ) {
+            notifyUser({
+                title: 'CPU Overload',
+                body: `CPU is over ${ cpuOverload }%`,
+                icon: path.join( __dirname, 'img', 'icon.png' )
+            });
+
+            localStorage.setItem( 'lastNotify', Date.now() );
         }
     });
 
@@ -81,7 +87,30 @@ function SecondsToDHMS( value ) {
 
 
 // ----
-// Notification
+// Notifications
+
+// Send Notification
 function notifyUser( options ) {
     new Notification( options.title, options );
+}
+
+// Check time for last Notification
+function runNotify( frequency ) {
+    if ( localStorage.getItem( 'lastNotify' ) === null ) {
+        // Store Timestamp
+        localStorage.setItem( 'lastNotify', Date.now() );
+
+        return true;
+    } 
+
+    const notifyTime = new Date( parseInt( localStorage.getItem( 'lastNotify' )));
+    const now = Date.now();
+    const diffTime = Math.abs( now - notifyTime );
+    const minutesPassed = Math.ceil( diffTime / ( 1000 * 60 ));
+
+    if ( minutesPassed > frequency ) {
+        return true;
+    } else {
+        return false;
+    }
 }
