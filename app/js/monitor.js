@@ -13,9 +13,6 @@ let cpuOverload = 80;
 let alertFrequency = 5;
 
 
-
-
-
 // ----
 // Static Stats
 

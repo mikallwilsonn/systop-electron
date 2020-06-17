@@ -3,12 +3,27 @@
 const { app, BrowserWindow, Menu } = require( 'electron' );
 const log = require( 'electron-log' );
 
+
 // ----
 // Set environment
 process.env.NODE_ENV = 'development';
 
 const isDev = process.env.NODE_ENV !== 'production' ? true : false;
 const isMac = process.platform === 'darwin' ? true : false;
+
+
+// ----
+// Store
+const Store = require( './Store' );
+const store = new Store ({
+  configName: 'user-settings',
+  defaults: {
+    settings: {
+      cpuOverload: 80,
+      alertFrequency: 5
+    }
+  }
+});
 
 
 // ----
