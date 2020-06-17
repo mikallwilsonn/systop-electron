@@ -1,6 +1,6 @@
 // ----
 // Dependencies
-const { app, BrowserWindow, Menu, ipcMain, Tray } = require( 'electron' );
+const { app, Menu, ipcMain, Tray } = require( 'electron' );
 const log = require( 'electron-log' );
 const path = require( 'path' );
 
@@ -28,29 +28,13 @@ const store = new Store ({
 
 // ----
 // Window
+const MainWindow = require( './MainWindow' ); 
 let mainWindow;
 let tray;
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({
-    title: 'SysTop',
-    width: isDev ? 800 : 355,
-    height: 600,
-    icon: './assets/icons/icon.png',
-    resizable: isDev ? true : false,
-    backgroundColor: 'white',
-    show: false,
-    opacity: 0.9,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  });
+  mainWindow = new MainWindow( './app/index.html', isDev );
 
-  if ( isDev ) {
-    mainWindow.webContents.openDevTools();
-  }
-
-  mainWindow.loadFile( './app/index.html' );
 }
 
 
