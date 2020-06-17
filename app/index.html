@@ -183,6 +183,7 @@
 
     <script>
       const settingsForm = document.querySelector( '#settings-form' );
+      const nav = document.querySelector( '#nav' );
 
       // Get Settings
       ipcRenderer.on( 'settings:get', ( event, settings ) => {
@@ -224,6 +225,12 @@
           alert.classList.remove( 'alert' );
         }, 3000 );
       }
+
+      // Toggle Navigation
+        // **NOTE:** ipcRenderer is required in monitor.js
+        ipcRenderer.on( 'nav:toggle', () => {
+          nav.classList.toggle( 'hide' );
+        });
     </script>
   </body>
 
