@@ -181,10 +181,7 @@
     <script src="./js/tabs.js"></script>
     <script src="./js/monitor.js"></script>
 
-
     <script>
-      const { ipcRenderer } = require( 'electron' );
-
       const settingsForm = document.querySelector( '#settings-form' );
 
       // Get Settings
@@ -202,6 +199,7 @@
 
 
         // Send new settings
+          // **NOTE:** ipcRenderer is required in monitor.js
         ipcRenderer.send( 'settings:set', {
           cpuOverload,
           alertFrequency
