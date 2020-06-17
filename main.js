@@ -64,9 +64,18 @@ app.on( 'ready', () => {
   const mainMenu = Menu.buildFromTemplate( menu );
   Menu.setApplicationMenu( mainMenu );
 
-  const icon = path.join( __dirname, 'assets', 'icons', 'tray_icon.png' );
+  mainWindow.on( 'close', ( event ) => {
+    if ( !app.isQuitting ) {
+      event.preventDefault();
+      mainWindow.hide()
+    } else {
+      return true;
+    }
+  });
 
+  // ----
   // Create tray
+  const icon = path.join( __dirname, 'assets', 'icons', 'tray_icon.png' );
   tray = new Tray( icon );
 
   tray.on( 'click', () => {
@@ -75,6 +84,20 @@ app.on( 'ready', () => {
     } else {
       mainWindow.show();
     }
+  });
+
+  tray.on( 'right-click', () => {
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Quit',
+        click: () => {
+          app.isQuitting = true;
+          app.quit();
+        },
+      },
+    ]);
+
+    tray.popUpContextMenu( contextMenu );
   });
 
   mainWindow.on( 'ready', () => ( mainWindow = null ));
