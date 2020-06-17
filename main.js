@@ -1,6 +1,6 @@
 // ----
 // Dependencies
-const { app, BrowserWindow, Menu } = require( 'electron' );
+const { app, BrowserWindow, Menu, ipcMain } = require( 'electron' );
 const log = require( 'electron-log' );
 
 
@@ -83,6 +83,15 @@ const menu = [
 ];
 
 
+// Set Settings
+ipcMain.on( 'settings:set', ( event, value ) => {
+  store.set( 'settings', value );
+
+  mainWindow.webContents.send( 'settings:get', store.get( 'settings' ));
+});
+
+
+// When all windows are closed
 app.on( 'window-all-closed', () => {
   if ( !isMac ) {
     app.quit();
@@ -90,6 +99,7 @@ app.on( 'window-all-closed', () => {
 });
 
 
+// On Activate
 app.on( 'activate', () => {
   if ( BrowserWindow.getAllWindows().length === 0 ) {
     createMainWindow();
