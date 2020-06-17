@@ -180,6 +180,16 @@
     <!-- Script imports -->
     <script src="./js/tabs.js"></script>
     <script src="./js/monitor.js"></script>
+
+
+    <script>
+      const { ipcRenderer } = require( 'electron' );
+
+      ipcRenderer.on( 'settings:get', ( event, settings ) => {
+        document.querySelector( '#cpu-overload' ).value = settings.cpuOverload;
+        document.querySelector( '#alert-frequency' ).value = settings.alertFrequency;
+      });
+    </script>
   </body>
 
 </html>
