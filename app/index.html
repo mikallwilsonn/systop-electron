@@ -180,6 +180,51 @@
     <!-- Script imports -->
     <script src="./js/tabs.js"></script>
     <script src="./js/monitor.js"></script>
+
+    <script>
+      const settingsForm = document.querySelector( '#settings-form' );
+
+      // Get Settings
+      ipcRenderer.on( 'settings:get', ( event, settings ) => {
+        document.querySelector( '#cpu-overload' ).value = settings.cpuOverload;
+        document.querySelector( '#alert-frequency' ).value = settings.alertFrequency;
+      });
+
+      // Submit Settings
+      settingsForm.addEventListener( 'submit', ( event ) => {
+        event.preventDefault();
+
+        const cpuOverload = document.querySelector( '#cpu-overload' ).value;
+        const alertFrequency = document.querySelector( '#alert-frequency' ).value;
+
+
+        // Send new settings
+          // **NOTE:** ipcRenderer is required in monitor.js
+        ipcRenderer.send( 'settings:set', {
+          cpuOverload,
+          alertFrequency
+        });
+
+        showAlert( 'Settings Saved' );
+      });
+
+
+      // Show alert fo settings
+      function showAlert( message ) {
+        const alert = document.querySelector( '#alert' );
+
+        alert.classList.remove( 'hide' );
+
+        alert.classList.add( 'alert' );
+
+        alert.innerText = message;
+
+        setTimeout(() => {
+          alert.classList.add( 'hide'); 
+          alert.classList.remove( 'alert' );
+        }, 3000 );
+      }
+    </script>
   </body>
 
 </html>

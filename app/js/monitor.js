@@ -2,18 +2,21 @@
 // Dependencies
 const path = require( 'path' );
 const osu = require( 'node-os-utils' );
+const { ipcRenderer } = require( 'electron' );
 const cpu = osu.cpu;
 const mem = osu.mem;
 const os = osu.os;
 
 
 // ---- 
-// CPU Overload
-let cpuOverload = 80;
-let alertFrequency = 5;
+// Get settings and values
+let cpuOverload;
+let alertFrequency;
 
-
-
+ipcRenderer.on( 'settings:get', ( event, settings ) => {
+    cpuOverload = settings.cpuOverload;
+    alertFrequency = settings.alertFrequency;
+});
 
 
 // ----
